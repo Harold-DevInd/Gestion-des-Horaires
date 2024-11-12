@@ -1,27 +1,36 @@
 .SILENT:
 
-CLASSE=./classes
-OBJS=Event.o Test1.o
-PROGRAM=Test1
+FILECLASSE=./Classes
+FILLEOBJS=./Objets
+OBJS=Test2.o Event.o Time.o Timing.o
+PROGRAM=Test2
 
 all:	$(PROGRAM)
 	$(PROGRAM)
 
-$(PROGRAM):	Test1.o Event.o
-	echo "Creation du programme test Test1"
-	g++ Test1.o Event.o -o Test1 -D DEBUG
+$(PROGRAM):	$(FILLEOBJS)/Test2.o $(FILLEOBJS)/Event.o $(FILLEOBJS)/Time.o $(FILLEOBJS)/Timing.o
+	echo "Creation du programme test Test2"
+	g++ $(FILLEOBJS)/Test2.o $(FILLEOBJS)/Event.o $(FILLEOBJS)/Time.o $(FILLEOBJS)/Timing.o -o Test2 -D DEBUG
 
-Test1.o:	Test1.cpp 
-	echo "Creation du fichier objet Test1.o"
-	g++ Test1.cpp -c -o Test1.o -D DEBUG
-
-Event.o:	Event.cpp	Event.h
+$(FILLEOBJS)/Event.o:	$(FILECLASSE)/Event.cpp	$(FILECLASSE)/Event.h
 	echo "Creation de Event.o"
-	g++ Event.cpp -c -o Event.o -D DEBUG
+	g++ $(FILECLASSE)/Event.cpp -c -o $(FILLEOBJS)/Event.o -D DEBUG
+
+$(FILLEOBJS)/Test2.o:	$(FILECLASSE)/Test2.cpp 
+	echo "Creation du fichier objet Test2.o"
+	g++ $(FILECLASSE)/Test2.cpp -c -o $(FILLEOBJS)/Test2.o #-D DEBUG
+
+$(FILLEOBJS)/Timing.o:	$(FILECLASSE)/Timing.cpp	$(FILECLASSE)/Timing.h
+	echo "Creation de Timing.o"
+	g++ $(FILECLASSE)/Timing.cpp -c -o $(FILLEOBJS)/Timing.o -D DEBUG
+
+$(FILLEOBJS)/Time.o:	$(FILECLASSE)/Time.cpp	$(FILECLASSE)/Time.h
+	echo "Creation de Time.o"
+	g++ $(FILECLASSE)/Time.cpp -c -o $(FILLEOBJS)/Time.o #-D DEBUG
 
 clean:	
 	echo "Suppression de fichiers objets: $(OBJS)"
-	rm -f $(OBJS)
+	rm -f $(FILLEOBJS)/$(OBJS)
 
 clobber:	clean	
 	echo "Suppression de tout les programme obtenus apres compilation : $(PROGRAM)"
