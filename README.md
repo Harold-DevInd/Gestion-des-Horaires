@@ -11,3 +11,8 @@ le « quoi ? ». Les notions de « où ? »  et « quand ? ».
 
 Nous allons à présent ajouter à notre classe Event tout ce qui est nécessaire à la gestion du temps, 
 c’est-à-dire « Quel jour ? », « A quelle heure ? » et « Combien de temps ? : **Time** et **Timing**.
+
+## Etape 3 : Surcharge des operateurs
+
+Il s’agit ici, de surcharger un certain nombre d’opérateurs des classes développées ci-dessus afin 
+de faciliter la gestion des heures et durées. 

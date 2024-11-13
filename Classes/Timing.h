@@ -13,6 +13,9 @@ private:
 	Time start;
 	Time duration;
 
+	int getDayOrder(const std::string&) const;
+	int compTiming(const Timing&) const;
+
 public:
 	static const std::string MONDAY;
 	static const std::string TUESDAY;
@@ -27,14 +30,19 @@ public:
 	Timing(const Timing&);
 	~Timing();
 
-	std::string getDay();
-	Time getStart();
-	Time getDuration();
+	std::string getDay() const;
+	Time getStart() const;
+	Time getDuration() const;
 	void setDay(std::string);
 	void setStart(const Time&);
 	void setDuration(const Time&);
 
 	void display() const;
+
+	int operator<(const Timing&) const;
+	int operator>(const Timing&) const;
+	int operator==(const Timing&) const;
+	int operator!=(const Timing&) const;
 };
 
 }//namespace

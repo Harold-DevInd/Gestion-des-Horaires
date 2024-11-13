@@ -2,27 +2,27 @@
 
 FILECLASSE=./Classes
 FILLEOBJS=./Objets
-OBJS=Test2.o Event.o Time.o Timing.o
-PROGRAM=Test2
+OBJS=Test3.o Event.o Time.o Timing.o
+PROGRAM=Test3
 
 all:	$(PROGRAM)
 	$(PROGRAM)
 
-$(PROGRAM):	$(FILLEOBJS)/Test2.o $(FILLEOBJS)/Event.o $(FILLEOBJS)/Time.o $(FILLEOBJS)/Timing.o
-	echo "Creation du programme test Test2"
-	g++ $(FILLEOBJS)/Test2.o $(FILLEOBJS)/Event.o $(FILLEOBJS)/Time.o $(FILLEOBJS)/Timing.o -o Test2 -D DEBUG
+$(PROGRAM):	$(FILLEOBJS)/Test3.o $(FILLEOBJS)/Event.o 
+	echo "Creation du programme test Test3"
+	g++ $(FILLEOBJS)/Test3.o $(FILLEOBJS)/Event.o $(FILLEOBJS)/Time.o $(FILLEOBJS)/Timing.o -o Test3 #-D DEBUG
 
-$(FILLEOBJS)/Event.o:	$(FILECLASSE)/Event.cpp	$(FILECLASSE)/Event.h
+$(FILLEOBJS)/Event.o:	$(FILECLASSE)/Event.cpp	$(FILECLASSE)/Event.h $(FILLEOBJS)/Timing.o
 	echo "Creation de Event.o"
-	g++ $(FILECLASSE)/Event.cpp -c -o $(FILLEOBJS)/Event.o -D DEBUG
+	g++ $(FILECLASSE)/Event.cpp -c -o $(FILLEOBJS)/Event.o #-D DEBUG
 
-$(FILLEOBJS)/Test2.o:	$(FILECLASSE)/Test2.cpp 
-	echo "Creation du fichier objet Test2.o"
-	g++ $(FILECLASSE)/Test2.cpp -c -o $(FILLEOBJS)/Test2.o #-D DEBUG
+$(FILLEOBJS)/Test3.o:	$(FILECLASSE)/Test3.cpp 
+	echo "Creation du fichier objet Test3.o"
+	g++ $(FILECLASSE)/Test3.cpp -c -o $(FILLEOBJS)/Test3.o #-D DEBUG
 
-$(FILLEOBJS)/Timing.o:	$(FILECLASSE)/Timing.cpp	$(FILECLASSE)/Timing.h
+$(FILLEOBJS)/Timing.o:	$(FILECLASSE)/Timing.cpp	$(FILECLASSE)/Timing.h $(FILLEOBJS)/Time.o
 	echo "Creation de Timing.o"
-	g++ $(FILECLASSE)/Timing.cpp -c -o $(FILLEOBJS)/Timing.o -D DEBUG
+	g++ $(FILECLASSE)/Timing.cpp -c -o $(FILLEOBJS)/Timing.o #-D DEBUG
 
 $(FILLEOBJS)/Time.o:	$(FILECLASSE)/Time.cpp	$(FILECLASSE)/Time.h
 	echo "Creation de Time.o"
@@ -30,7 +30,7 @@ $(FILLEOBJS)/Time.o:	$(FILECLASSE)/Time.cpp	$(FILECLASSE)/Time.h
 
 clean:	
 	echo "Suppression de fichiers objets: $(OBJS)"
-	rm -f $(FILLEOBJS)/$(OBJS)
+	rm -f $(FILLEOBJS)/*
 
 clobber:	clean	
 	echo "Suppression de tout les programme obtenus apres compilation : $(PROGRAM)"
