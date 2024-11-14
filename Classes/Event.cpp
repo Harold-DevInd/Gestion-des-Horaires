@@ -4,6 +4,9 @@
 #include <iostream>
 
 using namespace std;
+namespace planning{
+
+int Event::currentCode = 1;
 
 //*******************************************************************************************************
 //Constructeurs et descructeurs
@@ -12,20 +15,23 @@ using namespace std;
 Event::Event()
 {
 	#ifdef DEBUG
-	cout<<"Constructeur par defaut"<<endl;
+	cout<<"Constructeur par defaut de Event"<<endl;
 	#endif
 
 	code = 0;
 
-	//title = nullptr;
 	title = new char[30];
 	strcpy(title, "Evenement sans titre");
+	timing = nullptr;
+
+	//Incrementation de la variable globale comptant les evenements
+	currentCode++;
 }
 
 Event::~Event()
 {
 	#ifdef DEBUG
-	cout<<"Descructeur de Event"<<endl;
+	cout<<"Destructeur de Event"<<endl;
 	#endif
 
 	if(title != nullptr)
@@ -33,24 +39,37 @@ Event::~Event()
 		delete(title);
 		title = nullptr;
 	}
+
+	if(timing != nullptr)
+	{
+		delete(timing);
+		timing = nullptr;
+	}
+
+	//Decrementation de la variable globale comptant les evenements
+	currentCode--;
 }
 
 Event::Event(int c, const char* t)
 {
 	#ifdef DEBUG
-	cout<<"Constructeur d initialisation"<<endl;
+	cout<<"Constructeur d initialisation de Event"<<endl;
 	#endif
 
 	this->title = new char[strlen(t)+1];
 	strcpy(this->title, t);
 	this->code = c;
 
+	this->timing = nullptr;
+
+	//Incrementation de la variable globale comptant les evenements
+	currentCode++;
 }
 
 Event::Event(const Event& e)
 {
 	#ifdef DEBUG
-	cout<<"Constructeur par copie"<<endl;
+	cout<<"Constructeur par copie de Event"<<endl;
 	#endif
 
 
@@ -58,7 +77,18 @@ Event::Event(const Event& e)
 	strcpy(title, e.title);
 
 	this->code = e.code;
-	//this->title = title;
+
+	if(e.timing != nullptr)
+	{
+		this->timing = new Timing(*e.timing);
+	}
+	else
+	{
+		this->timing = nullptr;
+	}
+
+	//Incrementation de la variable globale comptant les evenements
+	currentCode++;
 }
 
 int Event::getCode() const
@@ -69,6 +99,14 @@ int Event::getCode() const
 const char* Event::getTitle() const
 {
 	return this->title;
+}
+
+Timing Event::getTiming()
+{
+	if(timing != nullptr)
+	{
+		return *this->timing;
+	}
 }
 
 void Event::setCode(int c)
@@ -83,6 +121,11 @@ void Event::setTitle(const char* t)
 	strcpy(title, t);
 }
 
+void Event::setTiming(const Timing& ti)
+{
+	this->timing = new Timing(ti);
+}
+
 
 //*******************************************************************************************************
 //Methodes publiques generales
@@ -90,5 +133,19 @@ void Event::setTitle(const char* t)
 
 void Event::display() const
 {
-	cout << "Code : "<<code<<" intitule : "<<title<<endl;
+	cout << "Code : "<<code<<" intitule : "<< title;
+	cout << "\nSe deroule ";
+
+	if(timing != nullptr)
+	{
+		timing->display();
+	}
+	else
+	{
+		cout << "Pas defini";
+	}
+	
+	cout<<endl;
 }
+
+}//namespace
