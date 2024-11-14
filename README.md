@@ -16,3 +16,8 @@ c’est-à-dire « Quel jour ? », « A quelle heure ? » et « Combien de temps
 
 Il s’agit ici, de surcharger un certain nombre d’opérateurs des classes développées ci-dessus afin 
 de faciliter la gestion des heures et durées. 
+
+## Etape 4 : Creation des classes representant des personnes
+
+Nous allons à présent passer la modélisation des intervenants du type « Qui peut avoir un 
+horaire ? Qui est occupé pendant cette tranche horaire ? etc… » : **Schedulable**, **Professor**, **Classroom** et **Group**.

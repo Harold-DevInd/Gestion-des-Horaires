@@ -2,31 +2,35 @@
 
 FILECLASSE=./Classes
 FILLEOBJS=./Objets
-OBJS=Test3.o Event.o Time.o Timing.o
-PROGRAM=Test3
+OBJS=Test4.o Group.o Professor.o Classroom.o Schedulable.o
+PROGRAM=Test4
 
 all:	$(PROGRAM)
 	$(PROGRAM)
 
-$(PROGRAM):	$(FILLEOBJS)/Test3.o $(FILLEOBJS)/Event.o 
-	echo "Creation du programme test Test3"
-	g++ $(FILLEOBJS)/Test3.o $(FILLEOBJS)/Event.o $(FILLEOBJS)/Time.o $(FILLEOBJS)/Timing.o -o Test3 #-D DEBUG
+$(PROGRAM):	$(FILLEOBJS)/Test4.o $(FILLEOBJS)/Group.o $(FILLEOBJS)/Professor.o $(FILLEOBJS)/Classroom.o $(FILLEOBJS)/Schedulable.o
+	echo "Creation du programme test Test4"
+	g++ $(FILLEOBJS)/Test4.o $(FILLEOBJS)/Group.o $(FILLEOBJS)/Professor.o $(FILLEOBJS)/Classroom.o $(FILLEOBJS)/Schedulable.o -o Test4 #-D DEBUG
 
-$(FILLEOBJS)/Event.o:	$(FILECLASSE)/Event.cpp	$(FILECLASSE)/Event.h $(FILLEOBJS)/Timing.o
-	echo "Creation de Event.o"
-	g++ $(FILECLASSE)/Event.cpp -c -o $(FILLEOBJS)/Event.o #-D DEBUG
+$(FILLEOBJS)/Test4.o:	$(FILECLASSE)/Test4.cpp 
+	echo "Creation du fichier objet Test4.o"
+	g++ $(FILECLASSE)/Test4.cpp -c -o $(FILLEOBJS)/Test4.o #-D DEBUG
 
-$(FILLEOBJS)/Test3.o:	$(FILECLASSE)/Test3.cpp 
-	echo "Creation du fichier objet Test3.o"
-	g++ $(FILECLASSE)/Test3.cpp -c -o $(FILLEOBJS)/Test3.o #-D DEBUG
+$(FILLEOBJS)/Group.o:	$(FILECLASSE)/Group.cpp	$(FILECLASSE)/Group.h $(FILLEOBJS)/Schedulable.o
+	echo "Creation de Group.o"
+	g++ $(FILECLASSE)/Group.cpp -c -o $(FILLEOBJS)/Group.o -D DEBUG
 
-$(FILLEOBJS)/Timing.o:	$(FILECLASSE)/Timing.cpp	$(FILECLASSE)/Timing.h $(FILLEOBJS)/Time.o
-	echo "Creation de Timing.o"
-	g++ $(FILECLASSE)/Timing.cpp -c -o $(FILLEOBJS)/Timing.o #-D DEBUG
+$(FILLEOBJS)/Professor.o:	$(FILECLASSE)/Professor.cpp	$(FILECLASSE)/Professor.h $(FILLEOBJS)/Schedulable.o
+	echo "Creation de Professor.o"
+	g++ $(FILECLASSE)/Professor.cpp -c -o $(FILLEOBJS)/Professor.o -D DEBUG
 
-$(FILLEOBJS)/Time.o:	$(FILECLASSE)/Time.cpp	$(FILECLASSE)/Time.h
-	echo "Creation de Time.o"
-	g++ $(FILECLASSE)/Time.cpp -c -o $(FILLEOBJS)/Time.o #-D DEBUG
+$(FILLEOBJS)/Classroom.o:	$(FILECLASSE)/Classroom.cpp	$(FILECLASSE)/Classroom.h $(FILLEOBJS)/Schedulable.o
+	echo "Creation de Classroom.o"
+	g++ $(FILECLASSE)/Classroom.cpp -c -o $(FILLEOBJS)/Classroom.o -D DEBUG
+
+$(FILLEOBJS)/Schedulable.o:	$(FILECLASSE)/Schedulable.cpp	$(FILECLASSE)/Schedulable.h
+	echo "Creation de Schedulable.o"
+	g++ $(FILECLASSE)/Schedulable.cpp -c -o $(FILLEOBJS)/Schedulable.o #-D DEBUG
 
 clean:	
 	echo "Suppression de fichiers objets: $(OBJS)"
