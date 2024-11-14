@@ -63,17 +63,17 @@ Timing::Timing(const Timing& tm)
 //Setteurs et getteurs
 //*******************************************************************************************************
 
-std::string Timing::getDay()
+std::string Timing::getDay() const
 {
 	return day;
 }
 
-Time Timing::getStart()
+Time Timing::getStart() const
 {
 	return start;
 }
 
-Time Timing::getDuration()
+Time Timing::getDuration() const
 {
 	return duration;
 }
@@ -104,6 +104,79 @@ void Timing::display() const
 	cout << " et durera ";
 	duration.display();
 	cout << " de temps."<<endl;
+}
+
+//*******************************************************************************************************
+//Methodes privées generales
+//*******************************************************************************************************
+
+int Timing::getDayOrder(const std::string& day) const
+{
+    if (day == Timing::MONDAY) return 1;
+    if (day == Timing::TUESDAY) return 2;
+    if (day == Timing::WEDNESDAY) return 3;
+    if (day == Timing::THURSDAY) return 4;
+    if (day == Timing::FRIDAY) return 5;
+    if (day == Timing::SATURDAY) return 6;
+    if (day == Timing::SUNDAY) return 7;
+    return 0; // Valeur par défaut si le jour ne correspond pas
+}
+
+int Timing::compTiming(const Timing& ti) const
+{
+	// Comparaison du jour en utilisant l'ordre de chaque jour
+    int thisDayOrder = getDayOrder(this->day);
+    int otherDayOrder = getDayOrder(ti.getDay());
+
+    if (thisDayOrder > otherDayOrder) {
+        return 1;
+    }
+    if (thisDayOrder < otherDayOrder) {
+        return -1;
+    }
+
+    // Si les jours sont égaux, comparons les heures de début
+    if (this->start > ti.getStart()) {
+        return  1;
+    }
+    if (this->start < ti.getStart()) {
+        return -1;
+    }
+
+    // Si les heures de début sont égales, comparons la durée
+    if (this->duration > ti.getDuration()) {
+        return 1;
+    }
+    if (this->duration <ti.getDuration()) {
+        return -1;
+    }
+
+    // Si tout est égal
+    return 0;
+}
+
+//*******************************************************************************************************
+//Surharge des operateurs
+//*******************************************************************************************************
+int Timing::operator>(const Timing& ti) const
+{
+	return compTiming(ti) == 1;
+}
+
+int Timing::operator<(const Timing& ti) const
+{
+	return compTiming(ti) == -1;
+}
+
+int Timing::operator==(const Timing& ti) const
+{
+	return compTiming(ti) == 0;
+}
+
+int Timing::operator!=(const Timing& ti) const
+{
+	//retourne true si les objets ne sont pas égaux, et false s’ils sont égaux
+	return !(*this == ti);
 }
 
 }//namespace
