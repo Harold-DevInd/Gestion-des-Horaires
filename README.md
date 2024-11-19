@@ -26,3 +26,6 @@ horaire ? Qui est occupé pendant cette tranche horaire ? etc… » : **Schedula
 
 Ici nous allons mettre en place une structure minimale de gestion des erreurs propres aux 
 classes développées jusqu'ici, grace aux classes : **Exception**, **TimeException** et **TimingException**.
+
+
+> N'oublier par de créer le repertoire Objets
