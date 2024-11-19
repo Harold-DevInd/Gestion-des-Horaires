@@ -21,3 +21,8 @@ de faciliter la gestion des heures et durées.
 
 Nous allons à présent passer la modélisation des intervenants du type « Qui peut avoir un 
 horaire ? Qui est occupé pendant cette tranche horaire ? etc… » : **Schedulable**, **Professor**, **Classroom** et **Group**.
+
+## Etape 5 : Gestion des exceptions pour les classes Time et Timing
+
+Ici nous allons mettre en place une structure minimale de gestion des erreurs propres aux 
+classes développées jusqu'ici, grace aux classes : **Exception**, **TimeException** et **TimingException**.

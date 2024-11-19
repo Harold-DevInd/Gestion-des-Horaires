@@ -1,4 +1,5 @@
 #include "Timing.h"
+#include "TimingException.h"
 
 #include <string.h>
 #include <iostream>
@@ -18,7 +19,7 @@ const std::string Timing::SUNDAY = "Dimanche";
 //Constructeurs et descructeurs
 //*******************************************************************************************************
 
-Timing::Timing()
+Timing::Timing() noexcept
 {
 	#ifdef DEBUG
 	cout<<"Constructeur par defaut de Timing"<<endl;
@@ -30,7 +31,7 @@ Timing::Timing()
 	this->duration = Time(0);
 }
 
-Timing::~Timing()
+Timing::~Timing() noexcept
 {
 	#ifdef DEBUG
 	cout<<"Destructeur par defaut de Timing"<<endl;
@@ -63,23 +64,26 @@ Timing::Timing(const Timing& tm)
 //Setteurs et getteurs
 //*******************************************************************************************************
 
-std::string Timing::getDay() const
+std::string Timing::getDay() const noexcept
 {
 	return day;
 }
 
-Time Timing::getStart() const
+Time Timing::getStart() const noexcept
 {
 	return start;
 }
 
-Time Timing::getDuration() const
+Time Timing::getDuration() const noexcept
 {
 	return duration;
 }
 
 void Timing::setDay(std::string d)
 {
+	if(getDayOrder(d) == 0)
+		throw TimingException(1, "Jour invalide");
+
 	this->day = d;
 }
 
@@ -97,7 +101,7 @@ void Timing::setDuration(const Time& d)
 //Methodes publiques generales
 //*******************************************************************************************************
 
-void Timing::display() const
+void Timing::display() const noexcept
 {
 	cout << "le " << day << ", a ";
 	start.display();
@@ -110,7 +114,7 @@ void Timing::display() const
 //Methodes privées generales
 //*******************************************************************************************************
 
-int Timing::getDayOrder(const std::string& day) const
+int Timing::getDayOrder(const std::string& day) const noexcept
 {
     if (day == Timing::MONDAY) return 1;
     if (day == Timing::TUESDAY) return 2;
@@ -158,22 +162,22 @@ int Timing::compTiming(const Timing& ti) const
 //*******************************************************************************************************
 //Surharge des operateurs
 //*******************************************************************************************************
-int Timing::operator>(const Timing& ti) const
+int Timing::operator>(const Timing& ti) const noexcept
 {
 	return compTiming(ti) == 1;
 }
 
-int Timing::operator<(const Timing& ti) const
+int Timing::operator<(const Timing& ti) const noexcept
 {
 	return compTiming(ti) == -1;
 }
 
-int Timing::operator==(const Timing& ti) const
+int Timing::operator==(const Timing& ti) const noexcept
 {
 	return compTiming(ti) == 0;
 }
 
-int Timing::operator!=(const Timing& ti) const
+int Timing::operator!=(const Timing& ti) const noexcept
 {
 	//retourne true si les objets ne sont pas égaux, et false s’ils sont égaux
 	return !(*this == ti);

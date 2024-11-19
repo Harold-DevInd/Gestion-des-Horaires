@@ -13,18 +13,18 @@ private:
 	Timing* timing;
 
 public:
-	Event();
-	~Event();
+	Event() noexcept;
+	~Event() noexcept;
 	Event(int,const char*);
 	Event(const Event&);
 
-	void display() const;
+	void display() const noexcept;
 
-	int getCode() const;
-	const char* getTitle() const;
+	int getCode() const noexcept;
+	const char* getTitle() const noexcept;
 	Timing getTiming();
 
-	void setCode(int);
+	void setCode(int) ;
 	void setTitle(const char*);
 	void setTiming(const Timing&);
 

@@ -1,4 +1,5 @@
 #include "Event.h"
+#include "TimingException.h"
 
 #include <string.h>
 #include <iostream>
@@ -12,7 +13,7 @@ int Event::currentCode = 1;
 //Constructeurs et descructeurs
 //*******************************************************************************************************
 
-Event::Event()
+Event::Event() noexcept
 {
 	#ifdef DEBUG
 	cout<<"Constructeur par defaut de Event"<<endl;
@@ -28,7 +29,7 @@ Event::Event()
 	currentCode++;
 }
 
-Event::~Event()
+Event::~Event() noexcept
 {
 	#ifdef DEBUG
 	cout<<"Destructeur de Event"<<endl;
@@ -91,12 +92,12 @@ Event::Event(const Event& e)
 	currentCode++;
 }
 
-int Event::getCode() const
+int Event::getCode() const noexcept
 {
 	return this->code;
 }
 
-const char* Event::getTitle() const
+const char* Event::getTitle() const noexcept
 {
 	return this->title;
 }
@@ -104,9 +105,9 @@ const char* Event::getTitle() const
 Timing Event::getTiming()
 {
 	if(timing != nullptr)
-	{
-		return *this->timing;
-	}
+		throw TimingException(2, "Timing null");
+
+	return *this->timing;
 }
 
 void Event::setCode(int c)
@@ -131,7 +132,7 @@ void Event::setTiming(const Timing& ti)
 //Methodes publiques generales
 //*******************************************************************************************************
 
-void Event::display() const
+void Event::display() const noexcept
 {
 	cout << "Code : "<<code<<" intitule : "<< title;
 	cout << "\nSe deroule ";

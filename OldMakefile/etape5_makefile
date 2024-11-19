@@ -1,0 +1,49 @@
+.SILENT:
+
+FILECLASSE=./Classes
+FILLEOBJS=./Objets
+OBJS=Test5.o Event.o Time.o Timing.o Exception.o TimeException.o TimingException.o
+PROGRAM=Test5
+
+all:	$(PROGRAM)
+	$(PROGRAM)
+
+$(PROGRAM):	$(FILLEOBJS)/Test5.o $(FILLEOBJS)/Event.o $(FILLEOBJS)/Time.o $(FILLEOBJS)/Timing.o $(FILLEOBJS)/TimeException.o $(FILLEOBJS)/TimingException.o $(FILLEOBJS)/Exception.o
+	echo "Creation du programme test Test5"
+	g++ $(FILLEOBJS)/Test5.o $(FILLEOBJS)/Event.o $(FILLEOBJS)/Time.o $(FILLEOBJS)/Timing.o $(FILLEOBJS)/TimeException.o $(FILLEOBJS)/TimingException.o $(FILLEOBJS)/Exception.o -o Test5 #-D DEBUG
+
+$(FILLEOBJS)/Test5.o:	$(FILECLASSE)/Test5.cpp $(FILLEOBJS)/Event.o
+	echo "Creation du fichier objet Test5.o"
+	g++ $(FILECLASSE)/Test5.cpp -c -o $(FILLEOBJS)/Test5.o #-D DEBUG
+
+$(FILLEOBJS)/Event.o:	$(FILECLASSE)/Event.cpp	$(FILECLASSE)/Event.h $(FILLEOBJS)/Timing.o
+	echo "Creation de Event.o"
+	g++ $(FILECLASSE)/Event.cpp -c -o $(FILLEOBJS)/Event.o #-D DEBUG
+
+$(FILLEOBJS)/Timing.o:	$(FILECLASSE)/Timing.cpp	$(FILECLASSE)/Timing.h $(FILLEOBJS)/Time.o $(FILLEOBJS)/TimingException.o
+	echo "Creation de Timing.o"
+	g++ $(FILECLASSE)/Timing.cpp -c -o $(FILLEOBJS)/Timing.o #-D DEBUG
+
+$(FILLEOBJS)/Time.o:	$(FILECLASSE)/Time.cpp	$(FILECLASSE)/Time.h $(FILLEOBJS)/TimeException.o
+	echo "Creation de Time.o"
+	g++ $(FILECLASSE)/Time.cpp -c -o $(FILLEOBJS)/Time.o #-D DEBUG
+
+$(FILLEOBJS)/TimingException.o:	$(FILECLASSE)/TimingException.cpp	$(FILECLASSE)/TimingException.h $(FILLEOBJS)/Exception.o
+	echo "Creation de TimingException.o"
+	g++ $(FILECLASSE)/TimingException.cpp -c -o $(FILLEOBJS)/TimingException.o #-D DEBUG
+
+$(FILLEOBJS)/TimeException.o:	$(FILECLASSE)/TimeException.cpp	$(FILECLASSE)/TimeException.h $(FILLEOBJS)/Exception.o
+	echo "Creation de TimeException.o"
+	g++ $(FILECLASSE)/TimeException.cpp -c -o $(FILLEOBJS)/TimeException.o #-D DEBUG
+
+$(FILLEOBJS)/Exception.o:	$(FILECLASSE)/Exception.cpp	$(FILECLASSE)/Exception.h
+	echo "Creation de Exception.o"
+	g++ $(FILECLASSE)/Exception.cpp -c -o $(FILLEOBJS)/Exception.o #-D DEBUG
+
+clean:	
+	echo "Suppression de fichiers objets: $(OBJS)"
+	rm -f $(FILLEOBJS)/*
+
+clobber:	clean	
+	echo "Suppression de tout les programme obtenus apres compilation : $(PROGRAM)"
+	rm -f $(PROGRAM)

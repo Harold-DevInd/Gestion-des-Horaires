@@ -13,7 +13,7 @@ private:
 	Time start;
 	Time duration;
 
-	int getDayOrder(const std::string&) const;
+	int getDayOrder(const std::string&) const noexcept;
 	int compTiming(const Timing&) const;
 
 public:
@@ -25,24 +25,24 @@ public:
 	static const std::string SATURDAY;
 	static const std::string SUNDAY;
 
-	Timing();
+	Timing() noexcept;
 	Timing(std::string,const Time&, const Time&);
 	Timing(const Timing&);
-	~Timing();
+	~Timing() noexcept;
 
-	std::string getDay() const;
-	Time getStart() const;
-	Time getDuration() const;
+	std::string getDay() const noexcept;
+	Time getStart() const noexcept;
+	Time getDuration() const noexcept;
 	void setDay(std::string);
 	void setStart(const Time&);
 	void setDuration(const Time&);
 
-	void display() const;
+	void display() const noexcept;
 
-	int operator<(const Timing&) const;
-	int operator>(const Timing&) const;
-	int operator==(const Timing&) const;
-	int operator!=(const Timing&) const;
+	int operator<(const Timing&) const noexcept;
+	int operator>(const Timing&) const noexcept;
+	int operator==(const Timing&) const noexcept;
+	int operator!=(const Timing&) const noexcept;
 };
 
 }//namespace
