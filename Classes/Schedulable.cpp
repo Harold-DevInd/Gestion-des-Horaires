@@ -35,7 +35,7 @@ Schedulable::~Schedulable()
 //Setteurs et getteurs
 //*******************************************************************************************************
 
-int Schedulable::getId()
+int Schedulable::getId() const
 {
 	return this->id;
 }

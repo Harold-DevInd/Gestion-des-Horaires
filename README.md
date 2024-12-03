@@ -27,5 +27,105 @@ horaire ? Qui est occupé pendant cette tranche horaire ? etc… » : **Schedula
 Ici nous allons mettre en place une structure minimale de gestion des erreurs propres aux 
 classes développées jusqu'ici, grace aux classes : **Exception**, **TimeException** et **TimingException**.
 
+## Etape 6 :  sérialisation des objets
+
+Le but de cette étape est de mettre en place la sérialisation des objets de notre application : a partir de maintenant, ce sont les opérateurs << et >> de nos différents objets qui assureront 
+respectivement la sérialisation et la désérialisation de nos objets sur un flux. Dans la suite, si on 
+désire afficher un objet en console à l’aide de « cout << … », on utilisera plutôt la méthode 
+toString() de chaque objet.
+
+**Pour les objets Classroom :**
+```xml
+<Classroom> 
+<id> 
+5 
+</id> 
+<name> 
+AN 
+</name> 
+<seatingCapacity> 
+110 
+</seatingCapacity> 
+</Classroom>  
+```
+
+**Pour les objets Time :**
+```xml
+<Time> 
+<hour> 
+8 
+</hour> 
+<minute> 
+20 
+</minute> 
+</Time> 
+```
+**Pour les objets Timing :**
+```xml
+<Timing> 
+<day> 
+Mardi 
+</day> 
+<start> 
+<Time> 
+<hour> 
+8 
+</hour> 
+<minute> 
+20 
+</minute> 
+</Time> 
+</start> 
+<duration> 
+<Time> 
+<hour> 
+2 
+</hour> 
+<minute> 
+0 
+</minute>
+</Time> 
+</duration> 
+</Timing>  
+```
+
+**Pour les objets Event :**
+```xml
+<Event> 
+<code> 
+17 
+</code> 
+<title> 
+Labo C++ 
+</title> 
+<timing> 
+<Timing> 
+<day> 
+Mardi 
+</day> 
+<start> 
+<Time> 
+<hour> 
+10 
+</hour> 
+<minute> 
+30 
+</minute> 
+</Time> 
+</start> 
+<duration> 
+<Time> 
+<hour> 
+2 
+</hour> 
+<minute> 
+0 
+</minute> 
+</Time> 
+</duration> 
+</Timing>
+</timing>  
+</Event>  
+```
 
 > N'oublier par de créer le repertoire Objets

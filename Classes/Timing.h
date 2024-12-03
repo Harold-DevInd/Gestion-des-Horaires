@@ -8,6 +8,9 @@ namespace planning{
 
 class Timing
 {
+friend std::ofstream& operator<<(std::ofstream&, const Timing&);
+friend std::ifstream& operator>>(std::ifstream&, Timing&);
+
 private:
 	std::string day;
 	Time start;

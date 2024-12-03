@@ -2,30 +2,34 @@
 
 #define EVENT_H
 #include "Timing.h"
+#include <string>
 
 namespace planning{
 
 class Event 
 {
+friend std::ofstream& operator<<(std::ofstream&, const Event&);
+friend std::ifstream& operator>>(std::ifstream&, Event&);
+
 private:
 	int code;
-	char* title;
+	std::string title;
 	Timing* timing;
 
 public:
 	Event() noexcept;
 	~Event() noexcept;
-	Event(int,const char*);
+	Event(int, std::string);
 	Event(const Event&);
 
 	void display() const noexcept;
 
 	int getCode() const noexcept;
-	const char* getTitle() const noexcept;
-	Timing getTiming();
+	std::string getTitle() const noexcept;
+	Timing getTiming() const;
 
 	void setCode(int) ;
-	void setTitle(const char*);
+	void setTitle(std::string);
 	void setTiming(const Timing&);
 
 	static int currentCode;

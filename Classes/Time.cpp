@@ -3,6 +3,8 @@
 
 #include <string.h>
 #include <iostream>
+#include <sstream>
+#include <fstream>
 
 using namespace std;
 namespace planning{
@@ -253,28 +255,58 @@ int Time::operator==(const Time& t) const noexcept
 	return compTime(t) == 0;
 }
 
-std::ostream& operator<<(std::ostream& s,const Time& t) noexcept
+std::ofstream& operator<<(std::ofstream& ofs,const Time& t)
 {
-	s << t.getHour() << "h" << t.getMinute() << endl;
+	/*std::ostringstream oss;	
+	printf("avant la serialisation");
+	oss << "<Time>\n<hour>\n" << t.getHour() << "\n<"\"hour>\n<minute>\n" << t.getMinute() << "\n<'\'minute>\n<'\'Time>";
 
-	return s;
+	printf("apres la serialisation");
+	std::string resultat = oss.str();
+
+	ofs << resultat;*/
+
+	// Construction du contenu XML-like
+    ofs << "<Time>\n";
+    ofs << "<hour>\n" << t.getHour() << "\n</hour>\n";
+    ofs << "<minute>\n" << t.getMinute() << "\n</minute>\n";
+    ofs << "</Time>";
+
+	return ofs;
 }
 
-std::istream& operator>>(std::istream& e, Time& t)
+std::ifstream& operator>>(std::ifstream& ifs, Time& t)
 {
-	std::string saisie;
+	std::string line;
+    int hour = 0, minute = 0, i = 0;
 
-	cin >> saisie;
+    while (i < 8)
+    {
+    	std::getline(ifs, line);
 
-	int pos = saisie.find('h');
+        if (line == "<hour>")
+        {
+            if (std::getline(ifs, line))
+            {
+                t.setHour(std::stoi(line));
+            }
+        }
+        else if (line == "<minute>")
+        {
+            if (std::getline(ifs, line))
+            {
+                t.setMinute(std::stoi(line));
+            }
+        }
+        else if(line == "</Time>")
+        {
+        	i = 8;
+        }
 
-	int heure = std::stoi(saisie.substr(0, pos));
-	int minute = std::stoi(saisie.substr(pos + 1));
+        i++;
+    }
 
-	t.setHour(heure);
-	t.setMinute(minute);
-
-	return e;
+	return ifs;
 }
 
 Time Time::operator++()
