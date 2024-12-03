@@ -1,6 +1,7 @@
 #include "Classroom.h"
 #include "Schedulable.h"
 #include <iostream>
+#include <fstream>
 #include <string.h>
 
 using namespace std;
@@ -73,11 +74,12 @@ void Classroom::setSeatingCapacity(int s)
 
 std::string Classroom::toString()
 {
-	std::string ret = name;
+	std::string ret = to_string(id);
 
-	ret = ret + " (";
-	ret = ret + to_string(seatingCapacity);
-	ret += ")";
+	ret += ";";
+	ret += name;
+	ret += " ;";
+	ret += to_string(seatingCapacity);
 
 	return ret;
 }
@@ -116,4 +118,52 @@ std::ostream& operator<<(std::ostream& o, Classroom& c)
 	o << c.toString() << endl;
 
 	return o;
+}
+
+std::ofstream& operator<<(std::ofstream& ofs,const Classroom& c)
+{
+    ofs << "<Classroom>\n";
+    ofs << "<id>\n" << c.getId() << "\n</id>\n";
+    ofs << "<name>\n" << c.getName() << "\n</name>\n";
+    ofs << "<seatingCapacity>\n" << c.getSeatingCapacity() << "\n</seatingCapacity>\n";
+    ofs << "</Classroom>\n";
+
+	return ofs;
+}
+
+std::ifstream& operator>>(std::ifstream& ifs, Classroom& c)
+{
+	std::string line;
+    int hour = 0, minute = 0, i = 0;
+
+    while (i < 11)
+    {
+    	std::getline(ifs, line);
+
+        if (line == "<id>")
+        {
+            if (std::getline(ifs, line))
+            {
+                c.setId(std::stoi(line));
+            }
+        }
+        else if (line == "<name>")
+        {
+            if (std::getline(ifs, line))
+            {
+                c.setName(line);
+            }
+        }
+        else if (line == "<seatingCapacity>")
+        {
+            if (std::getline(ifs, line))
+            {
+                c.setSeatingCapacity(std::stoi(line));
+            }
+        }
+
+        i++;
+    }
+
+	return ifs;
 }

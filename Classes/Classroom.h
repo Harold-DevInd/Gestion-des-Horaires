@@ -3,11 +3,13 @@
 #define CLASSROOM_H
 #include <string.h>
 #include <iostream>
+#include <fstream>
 #include "Schedulable.h"
 
 class Classroom : public Schedulable
 {
-friend std::ostream& operator<<(std::ostream&, Classroom&);
+friend std::ofstream& operator<<(std::ofstream&, const Classroom&);
+friend std::ifstream& operator>>(std::ifstream&, Classroom&);
 
 protected:
 	std::string name;

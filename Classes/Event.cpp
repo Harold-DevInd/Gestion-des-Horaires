@@ -1,4 +1,5 @@
 #include "Event.h"
+#include "Timing.h"
 #include "TimingException.h"
 
 #include <string.h>
@@ -21,8 +22,8 @@ Event::Event() noexcept
 
 	code = 0;
 
-	title = new char[30];
-	strcpy(title, "Evenement sans titre");
+	title = "Pas de titre";
+	
 	timing = nullptr;
 
 	//Incrementation de la variable globale comptant les evenements
@@ -35,12 +36,6 @@ Event::~Event() noexcept
 	cout<<"Destructeur de Event"<<endl;
 	#endif
 
-	if(title != nullptr)
-	{
-		delete(title);
-		title = nullptr;
-	}
-
 	if(timing != nullptr)
 	{
 		delete(timing);
@@ -51,14 +46,13 @@ Event::~Event() noexcept
 	currentCode--;
 }
 
-Event::Event(int c, const char* t)
+Event::Event(int c, std::string t)
 {
 	#ifdef DEBUG
 	cout<<"Constructeur d initialisation de Event"<<endl;
 	#endif
 
-	this->title = new char[strlen(t)+1];
-	strcpy(this->title, t);
+	this->title = t;
 	this->code = c;
 
 	this->timing = nullptr;
@@ -74,8 +68,7 @@ Event::Event(const Event& e)
 	#endif
 
 
-	title = new char[strlen(e.title)+1];
-	strcpy(title, e.title);
+	title = e.title;
 
 	this->code = e.code;
 
@@ -97,14 +90,14 @@ int Event::getCode() const noexcept
 	return this->code;
 }
 
-const char* Event::getTitle() const noexcept
+std::string Event::getTitle() const noexcept
 {
 	return this->title;
 }
 
-Timing Event::getTiming()
+Timing Event::getTiming() const
 {
-	if(timing != nullptr)
+	if(timing == nullptr)
 		throw TimingException(2, "Timing null");
 
 	return *this->timing;
@@ -115,11 +108,9 @@ void Event::setCode(int c)
 	this->code = c;
 }
 
-void Event::setTitle(const char* t)
+void Event::setTitle(std::string t)
 {
-	delete(title);
-	title = new char[strlen(t)+1];
-	strcpy(title, t);
+	this->title = t;
 }
 
 void Event::setTiming(const Timing& ti)
@@ -147,6 +138,74 @@ void Event::display() const noexcept
 	}
 	
 	cout<<endl;
+}
+
+std::ofstream& operator<<(std::ofstream& ofs,const Event& e)
+{
+	// Construction du contenu XML-like
+    ofs << "<Event>\n";
+    ofs << "<code>\n"; 
+    ofs << e.getCode();
+    ofs << "\n</code>\n";
+    ofs << "<title>\n"; 
+    ofs << e.getTitle();
+    ofs << "\n</title>\n";
+    ofs << "<timing>\n";
+
+    if (e.timing != nullptr)
+    {
+    	ofs << e.getTiming();
+    }
+
+    ofs << "\n</timing>\n";
+    ofs << "</Event>\n";
+
+	return ofs;
+}
+
+std::ifstream& operator>>(std::ifstream& ifs, Event& e)
+{
+	std::string line;
+	int i = 0;
+
+    while (i < 34)
+    {
+    	std::getline(ifs, line);
+    	
+        if (line == "<code>")
+        {
+            if (std::getline(ifs, line))
+            {
+                e.setCode(stoi(line));
+            }
+        }
+        else if (line == "<title>")
+        {
+            if (std::getline(ifs, line))
+            {
+                e.setTitle(line);
+            }
+        }
+        else if (line == "<timing>")
+        {
+            if (std::getline(ifs, line))
+            {	
+            	if(line == "\0")
+            	{
+                	e.timing = nullptr;
+            	}
+            	else
+            	{
+            		e.timing = new Timing();
+            		ifs >> *(e.timing);
+            	}
+            }
+        }
+
+        i++;
+    }
+
+	return ifs;
 }
 
 }//namespace

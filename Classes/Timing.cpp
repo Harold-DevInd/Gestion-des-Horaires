@@ -183,4 +183,63 @@ int Timing::operator!=(const Timing& ti) const noexcept
 	return !(*this == ti);
 }
 
+std::ofstream& operator<<(std::ofstream& ofs,const Timing& ti)
+{
+	// Construction du contenu XML-like
+    ofs << "<Timing>\n";
+    ofs << "<day>\n"; 
+    ofs << ti.getDay();
+    ofs << "\n</day>\n";
+    ofs << "<start>\n";
+    ofs << ti.getStart();
+    ofs << "\n</start>\n";
+    ofs << "<duration>\n";
+    ofs << ti.getDuration();
+    ofs << "\n</duration>\n";
+    ofs << "</Timing>";
+
+	return ofs;
+}
+
+std::ifstream& operator>>(std::ifstream& ifs, Timing& ti)
+{
+	std::string line;
+	int i = 0;
+
+    while (i < 25)
+    {
+    	std::getline(ifs, line);
+    	
+        if (line == "<day>")
+        {
+            if (std::getline(ifs, line))
+            {
+                ti.setDay(line);
+            }
+        }
+        else if (line == "<start>")
+        {
+            if (std::getline(ifs, line))
+            {
+                ifs >> ti.start;
+            }
+        }
+        else if (line == "<duration>")
+        {
+            if (std::getline(ifs, line))
+            {
+                ifs >> ti.duration;
+            }
+        }
+        else if(line == "</Timing>")
+        {
+        	i = 25;
+        }
+
+        i++;
+    }
+
+	return ifs;
+}
+
 }//namespace

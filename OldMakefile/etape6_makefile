@@ -1,0 +1,65 @@
+.SILENT:
+
+FILECLASSE=./Classes
+FILLEOBJS=./Objets
+OBJS=Test6.o Event.o Time.o Timing.o Exception.o TimeException.o TimingException.o Group.o Professor.o Classroom.o Schedulable.o
+PROGRAM=Test6
+
+all:	$(PROGRAM)
+	$(PROGRAM)
+
+$(PROGRAM):	$(FILLEOBJS)/Test6.o $(FILLEOBJS)/Event.o $(FILLEOBJS)/Time.o $(FILLEOBJS)/Timing.o $(FILLEOBJS)/TimeException.o $(FILLEOBJS)/TimingException.o $(FILLEOBJS)/Exception.o $(FILLEOBJS)/Group.o $(FILLEOBJS)/Professor.o $(FILLEOBJS)/Classroom.o $(FILLEOBJS)/Schedulable.o
+	echo "Creation du programme test Test6"
+	g++ $(FILLEOBJS)/Test6.o $(FILLEOBJS)/Event.o $(FILLEOBJS)/Time.o $(FILLEOBJS)/Timing.o $(FILLEOBJS)/TimeException.o $(FILLEOBJS)/TimingException.o $(FILLEOBJS)/Exception.o  $(FILLEOBJS)/Group.o $(FILLEOBJS)/Professor.o $(FILLEOBJS)/Classroom.o $(FILLEOBJS)/Schedulable.o -o Test6 #-D DEBUG
+
+$(FILLEOBJS)/Test6.o:	$(FILECLASSE)/Test6.cpp $(FILLEOBJS)/Event.o
+	echo "Creation du fichier objet Test6.o"
+	g++ $(FILECLASSE)/Test6.cpp -c -o $(FILLEOBJS)/Test6.o #-D DEBUG
+
+$(FILLEOBJS)/Event.o:	$(FILECLASSE)/Event.cpp	$(FILECLASSE)/Event.h $(FILLEOBJS)/Timing.o
+	echo "Creation de Event.o"
+	g++ $(FILECLASSE)/Event.cpp -c -o $(FILLEOBJS)/Event.o #-D DEBUG
+
+$(FILLEOBJS)/Timing.o:	$(FILECLASSE)/Timing.cpp	$(FILECLASSE)/Timing.h $(FILLEOBJS)/Time.o $(FILLEOBJS)/TimingException.o
+	echo "Creation de Timing.o"
+	g++ $(FILECLASSE)/Timing.cpp -c -o $(FILLEOBJS)/Timing.o #-D DEBUG
+
+$(FILLEOBJS)/Time.o:	$(FILECLASSE)/Time.cpp	$(FILECLASSE)/Time.h $(FILLEOBJS)/TimeException.o
+	echo "Creation de Time.o"
+	g++ $(FILECLASSE)/Time.cpp -c -o $(FILLEOBJS)/Time.o #-D DEBUG
+
+$(FILLEOBJS)/TimingException.o:	$(FILECLASSE)/TimingException.cpp	$(FILECLASSE)/TimingException.h $(FILLEOBJS)/Exception.o
+	echo "Creation de TimingException.o"
+	g++ $(FILECLASSE)/TimingException.cpp -c -o $(FILLEOBJS)/TimingException.o #-D DEBUG
+
+$(FILLEOBJS)/TimeException.o:	$(FILECLASSE)/TimeException.cpp	$(FILECLASSE)/TimeException.h $(FILLEOBJS)/Exception.o
+	echo "Creation de TimeException.o"
+	g++ $(FILECLASSE)/TimeException.cpp -c -o $(FILLEOBJS)/TimeException.o #-D DEBUG
+
+$(FILLEOBJS)/Exception.o:	$(FILECLASSE)/Exception.cpp	$(FILECLASSE)/Exception.h
+	echo "Creation de Exception.o"
+	g++ $(FILECLASSE)/Exception.cpp -c -o $(FILLEOBJS)/Exception.o #-D DEBUG
+
+$(FILLEOBJS)/Group.o:	$(FILECLASSE)/Group.cpp	$(FILECLASSE)/Group.h $(FILLEOBJS)/Schedulable.o
+	echo "Creation de Group.o"
+	g++ $(FILECLASSE)/Group.cpp -c -o $(FILLEOBJS)/Group.o #-D DEBUG
+
+$(FILLEOBJS)/Professor.o:	$(FILECLASSE)/Professor.cpp	$(FILECLASSE)/Professor.h $(FILLEOBJS)/Schedulable.o
+	echo "Creation de Professor.o"
+	g++ $(FILECLASSE)/Professor.cpp -c -o $(FILLEOBJS)/Professor.o #-D DEBUG
+
+$(FILLEOBJS)/Classroom.o:	$(FILECLASSE)/Classroom.cpp	$(FILECLASSE)/Classroom.h $(FILLEOBJS)/Schedulable.o
+	echo "Creation de Classroom.o"
+	g++ $(FILECLASSE)/Classroom.cpp -c -o $(FILLEOBJS)/Classroom.o #-D DEBUG
+
+$(FILLEOBJS)/Schedulable.o:	$(FILECLASSE)/Schedulable.cpp	$(FILECLASSE)/Schedulable.h
+	echo "Creation de Schedulable.o"
+	g++ $(FILECLASSE)/Schedulable.cpp -c -o $(FILLEOBJS)/Schedulable.o #-D DEBUG
+
+clean:	
+	echo "Suppression de fichiers objets: $(OBJS)"
+	rm -f $(FILLEOBJS)/*
+
+clobber:	clean	
+	echo "Suppression de tout les programme obtenus apres compilation : $(PROGRAM)"
+	rm -f $(PROGRAM)

@@ -14,7 +14,7 @@ public:
 	Schedulable(const Schedulable&) = default;
 	virtual ~Schedulable();
 
-	int getId();
+	int getId() const;
 	void setId(int);
 
 	virtual std::string toString() = 0;

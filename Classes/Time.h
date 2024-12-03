@@ -2,6 +2,8 @@
 
 #define Time_H
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 namespace planning{
 
@@ -11,8 +13,8 @@ friend Time operator+(int, const Time&);
 friend Time operator+(const Time&, const Time&);
 friend Time operator-(int, const Time&);
 friend Time operator-(const Time&, const Time&);
-friend std::ostream& operator<<(std::ostream&, const Time&) noexcept;
-friend std::istream& operator>>(std::istream&, Time&);
+friend std::ofstream& operator<<(std::ofstream&, const Time&);
+friend std::ifstream& operator>>(std::ifstream&, Time&);
 
 private: 
 	int hour;
